@@ -1,0 +1,106 @@
+
+      <h3>Add roles to user:</h3>
+
+
+      <form (ngSubmit)="onSubmit()" #f="ngForm">
+
+        <div class="form-group">
+            <label>Select user</label>
+
+            <ng-multiselect-dropdown
+                [placeholder]="'Username'"
+                [data]="dataUsers"
+                [(ngModel)]="selectedItemsUser"
+                [settings]="dropdown_S_Settings"
+                (onSelect)="onSelectUserId($event)"
+                (onSelectAll)="onSelectAll($event)"
+                (onDeSelect)="onDeSelect($event)"
+                id="username"
+                ngModel
+                name="username"
+                required
+            >
+            </ng-multiselect-dropdown>
+        </div>
+
+
+        <div class="form-group">
+            <label>Select roles</label>
+
+            <ng-multiselect-dropdown
+              [placeholder]="'Roles'"
+              [data]="dataRoles"
+              [(ngModel)]="selectedItems"
+              [settings]="dropdown_M_Settings"
+              (onSelect)="onSelectRolesId($event)"
+              (onSelectAll)="onSelectAll($event)"
+              (onDeSelect)="onDeSelectRole($event)"
+              id="roles"
+              ngModel
+              name="roles"
+              [disabled]="disable"
+              required
+            >
+            </ng-multiselect-dropdown>
+
+        </div>
+
+
+      <button class="btn btn-primary" [disabled]="disableBtn" type="submit">Submit</button>
+          <br><br><br>          <br><br><br>          <br><br><br>
+      </form>
+
+
+
+
+
+      <h3>Delete roles from user:</h3>
+
+
+      <form (ngSubmit)="onSubmit1()" #f1="ngForm">
+
+          <div class="form-group">
+              <label>Select user</label>
+
+              <ng-multiselect-dropdown
+                  [placeholder]="'Username'"
+                  [data]="dataUsers1"
+                  [(ngModel)]="selectedItemsUser1"
+                  [settings]="dropdown_S_Settings"
+                  (onSelect)="onSelectUserId1($event)"
+                  (onSelectAll)="onSelectAll1($event)"
+                  (onDeSelect)="onDeSelect1($event)"
+                  id="username1"
+                  ngModel
+                  name="username1"
+                  required
+              >
+              </ng-multiselect-dropdown>
+          </div>
+
+
+          <div class="form-group">
+              <label>Select roles</label>
+
+              <ng-multiselect-dropdown
+                  [placeholder]="'Roles'"
+                  [data]="dataRoles1"
+                  [(ngModel)]="selectedItems1"
+                  [settings]="dropdown_M_Settings"
+                  (onSelect)="onSelectRolesId1($event)"
+                  (onSelectAll)="onSelectAll1($event)"
+                  (onDeSelect)="onDeSelectRole1($event)"
+                  id="roles1"
+                  ngModel
+                  name="roles1"
+                  [disabled]="disable1"
+                  required
+              >
+              </ng-multiselect-dropdown>
+
+          </div>
+
+
+          <button class="btn btn-primary" [disabled]="disableBtn1" type="submit">Submit</button>
+          <br><br><br>          <br><br><br>          <br><br><br>
+      </form>

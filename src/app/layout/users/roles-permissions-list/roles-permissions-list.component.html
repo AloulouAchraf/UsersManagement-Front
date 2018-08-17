@@ -1,0 +1,71 @@
+
+
+    <h3>Roles Management</h3>
+    <br>
+    <kendo-grid
+        [data]="view | async"
+        [pageSize]="gridState.take"
+        [skip]="gridState.skip"
+        [sort]="gridState.sort"
+        [filter]="gridState.filter"
+        [filterable]="true"
+        [pageable]="true"
+        [sortable]="true"
+        (dataStateChange)="onStateChange($event)"
+        (edit)="editHandler($event)" (cancel)="cancelHandler($event)"
+        (save)="saveHandler($event)" (remove)="removeHandler($event)"
+        (add)="addHandler($event)"
+        [navigable]="true"
+    >
+        <ng-template kendoGridToolbarTemplate>
+            <button kendoGridAddCommand>Add Role</button>
+        </ng-template>
+        <kendo-grid-column field="name"></kendo-grid-column>
+        <kendo-grid-command-column title="command">
+            <ng-template kendoGridCellTemplate let-isNew="isNew">
+                <button kendoGridEditCommand [primary]="true">Edit</button>
+                <button kendoGridRemoveCommand>Remove</button>
+                <button kendoGridSaveCommand>{{ isNew ? 'Add' : 'Update' }}</button>
+                <button kendoGridCancelCommand>{{ isNew ? 'Discard changes' : 'Cancel' }}</button>
+            </ng-template>
+        </kendo-grid-command-column>
+    </kendo-grid>
+
+
+
+<br><br>
+
+
+    <h3>Permissions Management</h3>
+    <br>
+    <kendo-grid
+        [data]="view1 | async"
+        [pageSize]="gridState1.take"
+        [skip]="gridState1.skip"
+        [sort]="gridState1.sort"
+        [filter]="gridState1.filter"
+        [filterable]="true"
+        [pageable]="true"
+        [sortable]="true"
+        (dataStateChange)="onStateChange1($event)"
+        (edit)="editHandler1($event)" (cancel)="cancelHandler1($event)"
+        (save)="saveHandler1($event)" (remove)="removeHandler1($event)"
+        (add)="addHandler1($event)"
+        [navigable]="true"
+    >
+        <ng-template kendoGridToolbarTemplate>
+            <button kendoGridAddCommand>Add Permission</button>
+        </ng-template>
+        <kendo-grid-column field="name"></kendo-grid-column>
+        <kendo-grid-command-column title="command">
+            <ng-template kendoGridCellTemplate let-isNew="isNew">
+                <button kendoGridEditCommand [primary]="true">Edit</button>
+                <button kendoGridRemoveCommand>Remove</button>
+                <button kendoGridSaveCommand>{{ isNew ? 'Add' : 'Update' }}</button>
+                <button kendoGridCancelCommand>{{ isNew ? 'Discard changes' : 'Cancel' }}</button>
+            </ng-template>
+        </kendo-grid-command-column>
+    </kendo-grid>
+
+
+

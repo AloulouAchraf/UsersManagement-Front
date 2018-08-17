@@ -1,0 +1,19 @@
+<kendo-grid
+    [data]="view | async"
+    [pageSize]="gridState.take"
+    [skip]="gridState.skip"
+    [sort]="gridState.sort"
+    [filter]="gridState.filter"
+    [filterable]="true"
+    [pageable]="true"
+    [sortable]="true"
+    (dataStateChange)="onStateChange($event)"
+    [navigable]="true"
+>
+
+
+    <kendo-grid-column field="name"></kendo-grid-column>
+    <kendo-grid-column field="permission"  [filterable]="false" ></kendo-grid-column>
+
+
+</kendo-grid>

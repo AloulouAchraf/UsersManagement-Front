@@ -1,0 +1,110 @@
+
+<h3>Add permissions to role:</h3>
+
+
+<form (ngSubmit)="onSubmit()" #f="ngForm">
+
+    <div class="form-group">
+        <label>Select role</label>
+
+        <ng-multiselect-dropdown
+            [placeholder]="'Role'"
+            [data]="dataRoles"
+            [(ngModel)]="selectedItemsRole"
+            [settings]="dropdown_S_Settings"
+            (onSelect)="onSelectRoleId($event)"
+            (onSelectAll)="onSelectAll($event)"
+            (onDeSelect)="onDeSelect($event)"
+            id="role"
+            ngModel
+            name="role"
+            required
+        >
+        </ng-multiselect-dropdown>
+    </div>
+
+
+    <div class="form-group">
+        <label>Select permissions</label>
+
+        <ng-multiselect-dropdown
+            [placeholder]="'Permissions'"
+            [data]="dataPermissions"
+            [(ngModel)]="selectedItems"
+            [settings]="dropdown_M_Settings"
+            (onSelect)="onSelectPermissionsId($event)"
+            (onSelectAll)="onSelectAll($event)"
+            (onDeSelect)="onDeSelectPermission($event)"
+            id="permissions"
+            ngModel
+            name="permissions"
+            [disabled]="disable"
+            required
+        >
+        </ng-multiselect-dropdown>
+
+    </div>
+
+
+    <button class="btn btn-primary" [disabled]="disableBtn" type="submit">Submit</button>
+    <br><br><br>          <br><br><br>          <br><br><br>
+</form>
+
+
+
+
+
+
+<h3>Delete permissions from role:</h3>
+
+
+<form (ngSubmit)="onSubmit1()" #f1="ngForm">
+
+    <div class="form-group">
+        <label>Select role</label>
+
+        <ng-multiselect-dropdown
+            [placeholder]="'Role'"
+            [data]="dataRoles1"
+            [(ngModel)]="selectedItemsRole1"
+            [settings]="dropdown_S_Settings"
+            (onSelect)="onSelectRoleId1($event)"
+            (onSelectAll)="onSelectAll($event)"
+            (onDeSelect)="onDeSelect1($event)"
+            id="role1"
+            ngModel
+            name="role1"
+            required
+        >
+        </ng-multiselect-dropdown>
+    </div>
+
+
+    <div class="form-group">
+        <label>Select permissions</label>
+
+        <ng-multiselect-dropdown
+            [placeholder]="'Permissions'"
+            [data]="dataPermissions1"
+            [(ngModel)]="selectedItems1"
+            [settings]="dropdown_M_Settings"
+            (onSelect)="onSelectPermissionsId1($event)"
+            (onSelectAll)="onSelectAll($event)"
+            (onDeSelect)="onDeSelectPermission1($event)"
+            id="permissions1"
+            ngModel
+            name="permissions1"
+            [disabled]="disable1"
+            required
+        >
+        </ng-multiselect-dropdown>
+
+    </div>
+
+
+    <button class="btn btn-primary" [disabled]="disableBtn1" type="submit">Submit</button>
+    <br><br><br>          <br><br><br>          <br><br><br>
+</form>
+
+
+
