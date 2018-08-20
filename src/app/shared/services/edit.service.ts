@@ -12,171 +12,153 @@ const CREATE_ACTION = 'create';
 const UPDATE_ACTION = 'update';
 const REMOVE_ACTION = 'destroy';
 
+
 const HTTP_OPTION = {
-  headers: new HttpHeaders({
-    'Content-Type':  'application/json'
-  })
+    headers: new HttpHeaders({
+        'Content-Type':  'application/json'
+    })
 };
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 @Injectable()
 export class EditService extends BehaviorSubject<GridDataResult> {
 
-  myMethod$: Observable<any>;
-  private myMethodSubject = new Subject<any>();
+    myMethod$: Observable<any>;
+    private myMethodSubject = new Subject<any>();
 
 
-  constructor(private http: HttpClient) {
-    super(null);
-    this.myMethod$ = this.myMethodSubject.asObservable();
-  }
-
-  myMethod(data) {
-    this.state=data;
-    this.myMethodSubject.next(data);
-  }
-
-
-
-  private DataResult:GridDataResult;
-
-   DataResult = {
-    data: [],
-    total: 0
-  };
-
-
-  private state:any;
-
-
-  public read() {
-    if (this.DataResult.data.length) {
-      return super.next(this.DataResult.data);
+    constructor(private http: HttpClient) {
+        super(null);
+        this.myMethod$ = this.myMethodSubject.asObservable();
     }
 
 
-    this.fetch()
-      .pipe(
-        tap(data => {
-          this.DataResult.data = data;
-        })
-      )
-      .subscribe(data => {
-        super.next(data);
-      });
-  }
+    private state:any;
 
-  public save(data: any, isNew?: boolean) {
-    const action = isNew ? CREATE_ACTION : UPDATE_ACTION;
-
-    this.reset();
-
-    this.fetch(action, data)
-      .subscribe(() => this.read(), () => this.read());
-  }
-
-  public remove(data: any) {
-    this.reset();
-
-    this.fetch(REMOVE_ACTION, data)
-      .subscribe(() => this.read(), () => this.read());
-  }
-
-  public resetItem(dataItem: any) {
-    if (!dataItem) { return; }
-
-    // find orignal data item
-    const originalDataItem = this.DataResult.data.find(item => item.id === dataItem.id);
-
-    // revert changes
-    Object.assign(originalDataItem, dataItem);
-
-    super.next(this.DataResult.data);
-  }
-
-  private reset() {
-    this.DataResult.data = [];
-  }
-
-  private fetch(action: string = '', data?: any): Observable<GridDataResult> {
-
-    switch (action) {
-
-      case "create": {
-        return this.http
-          .post(`http://localhost/Spark_Workspace/new-project/public/index.php/users/${action}`,this.serializeModels1(data),HTTP_OPTION)
-          .pipe(
-            map(response => response),
-            map(response => (<GridDataResult>{
-                data: response['Users'],
-                total: response['Count']
-              })
-            )
-          );
-      }
-      case "update": {
-        return this.http
-          .put(`http://localhost/Spark_Workspace/new-project/public/index.php/users/${action}?${this.serializeModels(data)}`,this.serializeModels1(data),HTTP_OPTION)
-          .pipe(
-            map(response => response),
-            map(response => (<GridDataResult>{
-                data: response['Users'],
-                total: response['Count']
-              })
-            )
-          );
-      }
-      case "destroy": {
-        return this.http
-          .delete(`http://localhost/Spark_Workspace/new-project/public/index.php/users/${action}?${this.serializeModels(data)}`)
-          .pipe(
-            map(response => response),
-            map(response => (<GridDataResult>{
-                data: response['Users'],
-                total: response['Count']
-              })
-            )
-          );
-      }
-      default: {
-        return this.http
-          .post(`http://localhost/Spark_Workspace/new-project/public/index.php/GridState`,this.state,HTTP_OPTION)
-          .pipe(
-            map(response => response),
-            map(response => (<GridDataResult>{
-                data: response['Users'],
-                total: response['Count']
-              })
-            )
-          );
-      }
+    myMethod(data) {
+        this.state=data;
+        this.myMethodSubject.next(data);
     }
 
-  }
 
-  private serializeModels(data?: any): string {
-    var obj = JSON.stringify([data]);
-    var stringify = JSON.parse(obj);
-    return data ? `id=${stringify[0]['id']}` : '';
-  }
 
-  private serializeModels1(data?: any): string {
-    var obj = JSON.stringify([data]);
-    var res = obj.replace("[", "");
-    var res = res.replace("]", "");
-    return res;
-  }
+
+    private DataResult:GridDataResult = {
+        data:[],
+        total:0
+    };
+    public read() {
+        if (this.DataResult.data.length) {
+            return super.next(this.DataResult);
+
+        }
+
+        this.fetch()
+            .subscribe(data => {
+                super.next(data);
+            });
+    }
+
+    public save(data: any, isNew?: boolean) {
+        const action = isNew ? CREATE_ACTION : UPDATE_ACTION;
+
+        this.reset();
+
+        this.fetch(action, data)
+            .subscribe(() => this.read(), () => this.read());
+    }
+
+    public remove(data: any) {
+        this.reset();
+
+        this.fetch(REMOVE_ACTION, data)
+            .subscribe(() => this.read(), () => this.read());
+    }
+
+    public resetItem(dataItem: any) {
+        if (!dataItem) { return; }
+
+        // find orignal data item
+        const originalDataItem = this.DataResult.data.find(item => item.id === dataItem.id);
+
+        // revert changes
+        Object.assign(originalDataItem, dataItem);
+
+        super.next(this.DataResult);
+    }
+
+    private reset() {
+        this.DataResult.data = [];
+    }
+
+    private fetch(action: string = '', data?: any): Observable<GridDataResult> {
+
+        switch (action) {
+
+            case "create": {
+                return this.http
+                    .post(`http://localhost/Spark_Workspace/new-project/public/index.php/users/${action}`,this.serializeModels1(data),HTTP_OPTION)
+                    .pipe(
+                        map(response => response),
+                        map(response => (<GridDataResult>{
+                                data: response['Users'],
+                                total: response['Count']
+                            })
+                        )
+                    );
+            }
+            case "update": {
+                return this.http
+                    .put(`http://localhost/Spark_Workspace/new-project/public/index.php/users/${action}?${this.serializeModels(data)}`,this.serializeModels1(data),HTTP_OPTION)
+                    .pipe(
+                        map(response => response),
+                        map(response => (<GridDataResult>{
+                                data: response['Users'],
+                                total: response['Count']
+                            })
+                        )
+                    );
+            }
+            case "destroy": {
+                return this.http
+                    .delete(`http://localhost/Spark_Workspace/new-project/public/index.php/users/${action}?${this.serializeModels(data)}`)
+                    .pipe(
+                        map(response => response),
+                        map(response => (<GridDataResult>{
+                                data: response['Users'],
+                                total: response['Count']
+                            })
+                        )
+                    );
+            }
+            default: {
+                return this.http
+                    .post(`http://localhost/Spark_Workspace/new-project/public/index.php/GridState`,this.state,HTTP_OPTION)
+                    .pipe(
+                        map(response => response),
+                        map(response => (<GridDataResult>{
+                                data: response['Users'],
+                                total: response['Count']
+                            })
+                        )
+                    );
+            }
+        }
+
+    }
+
+    private serializeModels(data?: any): string {
+        var obj = JSON.stringify([data]);
+        var stringify = JSON.parse(obj);
+        return data ? `id=${stringify[0]['id']}` : '';
+    }
+
+    private serializeModels1(data?: any): string {
+        var obj = JSON.stringify([data]);
+        var res = obj.replace("[", "");
+        var res = res.replace("]", "");
+        return res;
+    }
 
 }
+

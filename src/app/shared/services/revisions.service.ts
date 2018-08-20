@@ -7,27 +7,11 @@ import { map } from 'rxjs/operators/map';
 import {Subject} from "rxjs/Rx";
 import {GridDataResult} from "@progress/kendo-angular-grid";
 
-
-
-
 const HTTP_OPTION = {
     headers: new HttpHeaders({
         'Content-Type':  'application/json'
     })
 };
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 @Injectable()
 export class RevisionsService extends BehaviorSubject<GridDataResult> {
@@ -41,59 +25,44 @@ export class RevisionsService extends BehaviorSubject<GridDataResult> {
         this.myMethod$ = this.myMethodSubject.asObservable();
     }
 
+    private state:any;
+
     myMethod(data) {
         this.state=data;
         this.myMethodSubject.next(data);
     }
 
-
-
-    private DataResult:GridDataResult;
-
-    DataResult = {
-        data: [],
-        total: 0
+    private DataResult:GridDataResult = {
+        data:[],
+        total:0
     };
 
-
-    private state:any;
 
 
     public read() {
         if (this.DataResult.data.length) {
-            return super.next(this.DataResult.data);
+            return super.next(this.DataResult);
+
         }
 
-
         this.fetch()
-            .pipe(
-                tap(data => {
-                    this.DataResult.data = data;
-                })
-            )
             .subscribe(data => {
                 super.next(data);
             });
     }
 
-
-
-
-
-
-
     private fetch(action: string = '', data?: any): Observable<GridDataResult> {
-                return this.http
-                    .post(`http://localhost/Spark_Workspace/new-project/public/index.php/Histo`,this.state,HTTP_OPTION)
-                    .pipe(
-                        map(response => response),
-                        map(response => (<GridDataResult>{
-                                data: response['Histo'],
-                                total: response['Count']
-                            })
-                        )
-                    );
-            }
+        return this.http
+            .post(`http://localhost/Spark_Workspace/new-project/public/index.php/Histo`,this.state,HTTP_OPTION)
+            .pipe(
+                map(response => response),
+                map(response => (<GridDataResult>{
+                        data: response['Histo'],
+                        total: response['Count']
+                    })
+                )
+            );
+    }
 
 
 

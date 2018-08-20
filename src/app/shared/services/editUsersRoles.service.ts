@@ -16,8 +16,6 @@ const HTTP_OPTION = {
 
 
 
-
-
 @Injectable()
 
 export class Edit3Service extends BehaviorSubject<GridDataResult> {
@@ -39,31 +37,23 @@ export class Edit3Service extends BehaviorSubject<GridDataResult> {
     }
 
 
-    private DataResult:GridDataResult;
-
-    DataResult = {
-        data: [],
-        total: 0
+    private DataResult:GridDataResult = {
+        data:[],
+        total:0
     };
 
 
     public read() {
         if (this.DataResult.data.length) {
-            return super.next(this.DataResult.data);
+            return super.next(this.DataResult);
+
         }
 
         this.fetch()
-            .pipe(
-                tap(data => {
-                    this.DataResult.data = data;
-                })
-            )
             .subscribe(data => {
                 super.next(data);
             });
     }
-
-
 
 
 
@@ -79,8 +69,6 @@ export class Edit3Service extends BehaviorSubject<GridDataResult> {
                     })
                 )
             );
-
-        }
-
+    }
 
 }

@@ -7,17 +7,11 @@ import { map } from 'rxjs/operators/map';
 import {GridDataResult} from "@progress/kendo-angular-grid";
 import {Subject} from "rxjs/Rx";
 
-
 const HTTP_OPTION = {
     headers: new HttpHeaders({
         'Content-Type':  'application/json'
     })
 };
-
-
-
-
-
 
 @Injectable()
 
@@ -40,33 +34,26 @@ export class Edit4Service extends BehaviorSubject<GridDataResult> {
     }
 
 
-    private DataResult:GridDataResult;
 
-    DataResult = {
-        data: [],
-        total: 0
+
+    private DataResult:GridDataResult = {
+        data:[],
+        total:0
     };
+
 
 
     public read() {
         if (this.DataResult.data.length) {
-            return super.next(this.DataResult.data);
+            return super.next(this.DataResult);
+
         }
 
         this.fetch()
-            .pipe(
-                tap(data => {
-                    this.DataResult.data = data;
-                })
-            )
             .subscribe(data => {
                 super.next(data);
             });
     }
-
-
-
-
 
     private fetch(action: string = '', data?: any): Observable<GridDataResult> {
 

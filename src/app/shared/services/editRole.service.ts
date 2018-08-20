@@ -12,15 +12,13 @@ const CREATE_ACTION = 'create';
 const UPDATE_ACTION = 'update';
 const REMOVE_ACTION = 'destroy';
 
+
 const HTTP_OPTION = {
     headers: new HttpHeaders({
         'Content-Type':  'application/json',
         'Authorization': 'Bearer '+localStorage.getItem('access_token')
     })
 };
-
-
-
 
 @Injectable()
 export class Edit1Service extends BehaviorSubject<GridDataResult> {
@@ -42,29 +40,27 @@ export class Edit1Service extends BehaviorSubject<GridDataResult> {
         this.myMethodSubject.next(data);
     }
 
-    private DataResult:GridDataResult;
 
-    DataResult = {
-        data: [],
-        total: 0
+
+    private DataResult:GridDataResult = {
+        data:[],
+        total:0
     };
+
 
 
     public read() {
         if (this.DataResult.data.length) {
-            return super.next(this.DataResult.data);
+            return super.next(this.DataResult);
+
         }
 
         this.fetch()
-            .pipe(
-                tap(data => {
-                    this.DataResult.data = data;
-                })
-            )
             .subscribe(data => {
                 super.next(data);
             });
     }
+
 
     public save(data: any, isNew?: boolean) {
         const action = isNew ? CREATE_ACTION : UPDATE_ACTION;
@@ -74,8 +70,6 @@ export class Edit1Service extends BehaviorSubject<GridDataResult> {
         this.fetch(action, data)
             .subscribe(() => this.read(), () => this.read());
     }
-
-
 
     public remove(data: any) {
         this.reset();
@@ -93,14 +87,12 @@ export class Edit1Service extends BehaviorSubject<GridDataResult> {
         // revert changes
         Object.assign(originalDataItem, dataItem);
 
-        super.next(this.DataResult.data);
+        super.next(this.DataResult);
     }
 
     private reset() {
         this.DataResult.data = [];
     }
-
-
 
     private fetch(action: string = '', data?: any): Observable<GridDataResult> {
 
@@ -173,3 +165,4 @@ export class Edit1Service extends BehaviorSubject<GridDataResult> {
     }
 
 }
+
